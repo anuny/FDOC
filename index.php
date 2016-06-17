@@ -34,8 +34,13 @@ if(controller=='admin'){
 		$filesnames = file_list(database);
 		foreach ($filesnames as $file) {
 			if(is_dir(database.$file)){
-				$myfile = json_decode(file_get_contents(database.$file.'/info.json'));
-				echo '<li><a href="?controller=admin&action=edit&id='.$file.'">'.$myfile->name.'</a></li>';
+				if (file_exists(database.$file.'/info.json')){
+					$myfile = json_decode(file_get_contents(database.$file.'/info.json'));
+					echo '<li><a href="?controller=admin&action=edit&id='.$file.'">'.$myfile->name.'</a></li>';
+				}else{
+					 echo '没有项目文档,<a href="index.php?controller=admin&action=new">新建?</a>';
+				}
+				
 			}
 		}
 		echo '</div>';
